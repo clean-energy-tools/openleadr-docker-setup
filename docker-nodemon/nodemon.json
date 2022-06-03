@@ -1,0 +1,11 @@
+{
+    "restartable": "rs",
+    "watch": [
+        "/openleadr-python",
+        "/app"
+    ],
+    "events": {
+        "start": "python -v /app/app.py",
+        "restart": "python -v /app/app.py"
+    }
+}

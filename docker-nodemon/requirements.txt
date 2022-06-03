@@ -1,0 +1,10 @@
+termcolor
+aiohttp
+lxml
+signxml
+datetime
+dataclasses
+apscheduler
+argparse
+xmltodict
+jinja2

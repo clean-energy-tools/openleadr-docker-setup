@@ -1,0 +1,43 @@
+services:
+  vtn:
+    image: robogeek/python-openleadr-nodemon:latest
+    volumes:
+      - /home/david/Projects/openadr/openleadr-python:/openleadr-python
+      - ./testvtn.py:/app/app.py
+    networks:
+      - adrnet
+    environment:
+      - PYTHONPATH=/openleadr-python:/app
+      - VTN_NAME=vtn001
+    ports:
+      - 8080:8080
+
+  ven:
+    image: robogeek/python-openleadr-nodemon:latest
+    networks:
+      - adrnet
+    volumes:
+      - /home/david/Projects/openadr/openleadr-python:/openleadr-python
+      - ./testven.py:/app/app.py
+    environment:
+      - VEN_NAME=ven123
+      - VTN_URL=http://vtn:8080/OpenADR2/Simple/2.0b
+      - RESOURCE_NAME=resource
+      - PYTHONPATH=/openleadr-python:/app
+    depends_on:
+      - vtn
+
+#  nodered:
+#    image: nodered/node-red
+#    networks:
+#      - adrnet
+#    ports:
+#      - 1880:1880
+#    volumes:
+#      - ./node-red-contrib-oadr-ven:/data
+#    environment:
+#      - FLOWS=/data/examples/demoflow.json
+
+networks:
+  adrnet:
+
