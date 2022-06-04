@@ -1,5 +1,6 @@
 import asyncio
 from datetime import timedelta
+import pytz
 from openleadr import OpenADRClient, enable_default_logging
 import os
 import logging
@@ -10,7 +11,14 @@ RESOURCE_NAME = os.environ['RESOURCE_NAME']
 
 VEN_ID   = VEN_NAME + "_id"
 
+tz_local = pytz.timezone('America/Chicago')
+
+if __name__ == "__main__":
+    #code here
+    pass
+
 enable_default_logging(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('openleadr')
 
 logger.debug(f"VEN START {VEN_NAME} {VTN_URL} {RESOURCE_NAME} {VEN_ID}")
@@ -27,8 +35,8 @@ async def handle_event(event):
     return 'optIn'
 
 # Create the client object
-client = OpenADRClient(ven_name=VEN_NAME, vtn_url=VTN_URL, ven_id=VEN_ID, debug=True)
-                       # vtn_url='http://localhost:8080/OpenADR2/Simple/2.0b')
+client = OpenADRClient(ven_name=VEN_NAME, vtn_url=VTN_URL, debug=True)
+# , ven_id=VEN_ID
 
 # Add the report capability to the client
 client.add_report(callback=collect_report_value,
@@ -41,15 +49,10 @@ client.add_handler('on_event', handle_event)
 
 logger.debug("After add_handler on_event")
 
-# Run the client in the Python AsyncIO Event Loop
-# loop = asyncio.get_event_loop()
-# loop.create_task(client.run())
-# loop.run_forever()
-
-# asyncio.run(client.run())
-# asyncio.get_running_loop().run_forever()
-
 loop = asyncio.new_event_loop()
+loop.set_debug(True)
 asyncio.set_event_loop(loop)
-asyncio.run(client.run())
+loop.create_task(client.run())
+# Using this line causes failure
+# asyncio.run(client.run(), debug=True)
 loop.run_forever()

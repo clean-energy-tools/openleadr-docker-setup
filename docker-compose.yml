@@ -9,6 +9,8 @@ services:
     environment:
       - PYTHONPATH=/openleadr-python:/app
       - VTN_NAME=vtn001
+      - PYTHONASYNCIODEBUG=1
+      - TIMEZONE=America/Los_Angeles
     ports:
       - 8080:8080
 
@@ -24,6 +26,8 @@ services:
       - VTN_URL=http://vtn:8080/OpenADR2/Simple/2.0b
       - RESOURCE_NAME=resource
       - PYTHONPATH=/openleadr-python:/app
+      - PYTHONASYNCIODEBUG=1
+      - TIMEZONE=America/Los_Angeles
     depends_on:
       - vtn
 

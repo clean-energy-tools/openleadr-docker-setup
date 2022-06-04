@@ -7,7 +7,7 @@ VOLUME /app
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get update && \
         apt-get upgrade -y && \
-        apt-get install -y nodejs build-essential curl locales
+        apt-get install -y nodejs build-essential curl locales libffi-dev
 
 RUN npm install -g nodemon
 COPY requirements.txt /setup/requirements.txt
